@@ -1,0 +1,691 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+    <control namespace="BachmanCanvas"
+             constructor="LessCanvas"
+             version="0.5.1"
+             display-name-key="Less Canvas"
+             description-key="
+                Used to apply lesscss formatted stylesheets to Canvas controls.
+                Set .showDebug to True to see API and debug output in an overlay window.
+                See https://lesscss.org for less documentation."
+             control-type="standard">
+        <!--inputs-->
+        <property
+                name="style"
+                display-name-key="Stylesheet"
+                description-key="less formatted CSS for styling app"
+                of-type="Multiple"
+                usage="input"
+                required="true" />
+        <property
+                name="keepStyle"
+                display-name-key="Keep Style"
+                description-key="Set to True to allow style element to persist after control is destroyed."
+                of-type="TwoOptions"
+                usage="input"
+                required="true" />
+        <property
+                name="showDebug"
+                display-name-key="Show Debug"
+                description-key="Set to True to show a window with the final compiled color/size spreads, CSS, less, and a simplified canvas-app DOM along with API details."
+                of-type="TwoOptions"
+                usage="input"
+                required="true" />
+        <property name="primaryColorSeed"
+                  display-name-key="Primary Color Seed Hex"
+                  description-key="primaryColorSeed"
+                  of-type="SingleLine.Text"
+                  usage="input"
+                  required="true" />
+        <property name="secondaryColorSeed"
+                  display-name-key="Secondary Color Seed Hex"
+                  description-key="secondaryColorSeed"
+                  of-type="SingleLine.Text"
+                  usage="input"
+                  required="true" />
+        <property name="tertiaryColorSeed"
+                  display-name-key="Tertiary Color Seed Hex"
+                  description-key="tertiaryColorSeed"
+                  of-type="SingleLine.Text"
+                  usage="input"
+                  required="true" />
+        <property name="neutralColorSeed"
+                  display-name-key="Neutral Color Seed Hex"
+                  description-key="neutralColorSeed"
+                  of-type="SingleLine.Text"
+                  usage="input"
+                  required="true" />
+        <property name="infoColorSeed"
+                  display-name-key="Info Color Seed Hex"
+                  description-key="infoColorSeed"
+                  of-type="SingleLine.Text"
+                  usage="input"
+                  required="true" />
+        <property name="successColorSeed"
+                  display-name-key="Success Color Seed Hex"
+                  description-key="successColorSeed"
+                  of-type="SingleLine.Text"
+                  usage="input"
+                  required="true" />
+        <property name="warningColorSeed"
+                  display-name-key="Warning Color Seed Hex"
+                  description-key="warningColorSeed"
+                  of-type="SingleLine.Text"
+                  usage="input"
+                  required="true" />
+        <property name="dangerColorSeed"
+                  display-name-key="Danger Color Seed Hex"
+                  description-key="dangerColorSeed"
+                  of-type="SingleLine.Text"
+                  usage="input"
+                  required="true" />
+        <property name="emGridSizeSeed"
+                  display-name-key="Grid-Size Em Multiple Seed"
+                  description-key="emGridSizeSeed"
+                  of-type="Decimal"
+                  usage="input"
+                  required="true" />
+        <!-- outputs -->
+        <!-- colors -->
+        <!-- theme -->
+        <!-- primary -->
+        <property
+                name="colorPrimary100"
+                display-name-key="Primary Color 100"
+                description-key="Hex value of 100-value primary theme color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorPrimary200"
+                display-name-key="Primary Color 200"
+                description-key="Hex value of 200-value primary theme color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorPrimary300"
+                display-name-key="Primary Color 300"
+                description-key="Hex value of 300-value primary theme color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorPrimary400"
+                display-name-key="Primary Color 400"
+                description-key="Hex value of 400-value primary theme color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorPrimary500"
+                display-name-key="Primary Color 500"
+                description-key="Hex value of 500-value primary theme color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorPrimary600"
+                display-name-key="Primary Color 600"
+                description-key="Hex value of 600-value primary theme color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorPrimary700"
+                display-name-key="Primary Color 700"
+                description-key="Hex value of 700-value primary theme color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorPrimary800"
+                display-name-key="Primary Color 800"
+                description-key="Hex value of 800-value primary theme color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorPrimary900"
+                display-name-key="Primary Color 900"
+                description-key="Hex value of 900-value primary theme color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <!-- secondary -->
+        <property
+                name="colorSecondary100"
+                display-name-key="Secondary Color 100"
+                description-key="Hex value of 100-value secondary theme color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorSecondary200"
+                display-name-key="Secondary Color 200"
+                description-key="Hex value of 200-value secondary theme color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorSecondary300"
+                display-name-key="Secondary Color 300"
+                description-key="Hex value of 300-value secondary theme color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorSecondary400"
+                display-name-key="Secondary Color 400"
+                description-key="Hex value of 400-value secondary theme color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorSecondary500"
+                display-name-key="Secondary Color 500"
+                description-key="Hex value of 500-value secondary theme color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorSecondary600"
+                display-name-key="Secondary Color 600"
+                description-key="Hex value of 600-value secondary theme color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorSecondary700"
+                display-name-key="Secondary Color 700"
+                description-key="Hex value of 700-value secondary theme color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorSecondary800"
+                display-name-key="Secondary Color 800"
+                description-key="Hex value of 800-value secondary theme color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorSecondary900"
+                display-name-key="Secondary Color 900"
+                description-key="Hex value of 900-value secondary theme color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <!-- tertiary -->
+        <property
+                name="colorTertiary100"
+                display-name-key="Tertiary Color 100"
+                description-key="Hex value of 100-value tertiary theme color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorTertiary200"
+                display-name-key="Tertiary Color 200"
+                description-key="Hex value of 200-value tertiary theme color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorTertiary300"
+                display-name-key="Tertiary Color 300"
+                description-key="Hex value of 300-value tertiary theme color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorTertiary400"
+                display-name-key="Tertiary Color 400"
+                description-key="Hex value of 400-value tertiary theme color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorTertiary500"
+                display-name-key="Tertiary Color 500"
+                description-key="Hex value of 500-value tertiary theme color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorTertiary600"
+                display-name-key="Tertiary Color 600"
+                description-key="Hex value of 600-value tertiary theme color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorTertiary700"
+                display-name-key="Tertiary Color 700"
+                description-key="Hex value of 700-value tertiary theme color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorTertiary800"
+                display-name-key="Tertiary Color 800"
+                description-key="Hex value of 800-value tertiary theme color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorTertiary900"
+                display-name-key="Tertiary Color 900"
+                description-key="Hex value of 900-value tertiary theme color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <!-- neutral -->
+        <property
+                name="colorNeutral100"
+                display-name-key="Neutral Color 100"
+                description-key="Hex value of 100-value neutral color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorNeutral200"
+                display-name-key="Neutral Color 200"
+                description-key="Hex value of 200-value neutral color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorNeutral300"
+                display-name-key="Neutral Color 300"
+                description-key="Hex value of 300-value neutral color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorNeutral400"
+                display-name-key="Neutral Color 400"
+                description-key="Hex value of 400-value neutral color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorNeutral500"
+                display-name-key="Neutral Color 500"
+                description-key="Hex value of 500-value neutral color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorNeutral600"
+                display-name-key="Neutral Color 600"
+                description-key="Hex value of 600-value neutral color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorNeutral700"
+                display-name-key="Neutral Color 700"
+                description-key="Hex value of 700-value neutral color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorNeutral800"
+                display-name-key="Neutral Color 800"
+                description-key="Hex value of 800-value neutral color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorNeutral900"
+                display-name-key="Neutral Color 900"
+                description-key="Hex value of 900-value neutral color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <!-- semantic -->
+        <!-- info -->
+        <property
+                name="colorInfo100"
+                display-name-key="info Color 100"
+                description-key="Hex value of 100-value info color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorInfo200"
+                display-name-key="info Color 200"
+                description-key="Hex value of 200-value info color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorInfo300"
+                display-name-key="info Color 300"
+                description-key="Hex value of 300-value info color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorInfo400"
+                display-name-key="info Color 400"
+                description-key="Hex value of 400-value info color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorInfo500"
+                display-name-key="info Color 500"
+                description-key="Hex value of 500-value info color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorInfo600"
+                display-name-key="info Color 600"
+                description-key="Hex value of 600-value info color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorInfo700"
+                display-name-key="info Color 700"
+                description-key="Hex value of 700-value info color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorInfo800"
+                display-name-key="info Color 800"
+                description-key="Hex value of 800-value info color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorInfo900"
+                display-name-key="info Color 900"
+                description-key="Hex value of 900-value info color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <!-- success -->
+        <property
+                name="colorSuccess100"
+                display-name-key="success Color 100"
+                description-key="Hex value of 100-value success color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorSuccess200"
+                display-name-key="success Color 200"
+                description-key="Hex value of 200-value success color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorSuccess300"
+                display-name-key="success Color 300"
+                description-key="Hex value of 300-value success color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorSuccess400"
+                display-name-key="success Color 400"
+                description-key="Hex value of 400-value success color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorSuccess500"
+                display-name-key="success Color 500"
+                description-key="Hex value of 500-value success color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorSuccess600"
+                display-name-key="success Color 600"
+                description-key="Hex value of 600-value success color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorSuccess700"
+                display-name-key="success Color 700"
+                description-key="Hex value of 700-value success color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorSuccess800"
+                display-name-key="success Color 800"
+                description-key="Hex value of 800-value success color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorSuccess900"
+                display-name-key="success Color 900"
+                description-key="Hex value of 900-value success color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <!-- warning -->
+        <property
+                name="colorWarning100"
+                display-name-key="warning Color 100"
+                description-key="Hex value of 100-value warning color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorWarning200"
+                display-name-key="warning Color 200"
+                description-key="Hex value of 200-value warning color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorWarning300"
+                display-name-key="warning Color 300"
+                description-key="Hex value of 300-value warning color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorWarning400"
+                display-name-key="warning Color 400"
+                description-key="Hex value of 400-value warning color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorWarning500"
+                display-name-key="warning Color 500"
+                description-key="Hex value of 500-value warning color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorWarning600"
+                display-name-key="warning Color 600"
+                description-key="Hex value of 600-value warning color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorWarning700"
+                display-name-key="warning Color 700"
+                description-key="Hex value of 700-value warning color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorWarning800"
+                display-name-key="warning Color 800"
+                description-key="Hex value of 800-value warning color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorWarning900"
+                display-name-key="warning Color 900"
+                description-key="Hex value of 900-value warning color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <!-- danger -->
+        <property
+                name="colorDanger100"
+                display-name-key="danger Color 100"
+                description-key="Hex value of 100-value danger color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorDanger200"
+                display-name-key="danger Color 200"
+                description-key="Hex value of 200-value danger color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorDanger300"
+                display-name-key="danger Color 300"
+                description-key="Hex value of 300-value danger color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorDanger400"
+                display-name-key="danger Color 400"
+                description-key="Hex value of 400-value danger color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorDanger500"
+                display-name-key="danger Color 500"
+                description-key="Hex value of 500-value danger color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorDanger600"
+                display-name-key="danger Color 600"
+                description-key="Hex value of 600-value danger color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorDanger700"
+                display-name-key="danger Color 700"
+                description-key="Hex value of 700-value danger color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorDanger800"
+                display-name-key="danger Color 800"
+                description-key="Hex value of 800-value danger color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <property
+                name="colorDanger900"
+                display-name-key="danger Color 900"
+                description-key="Hex value of 900-value danger color"
+                of-type="SingleLine.Text"
+                usage="output"
+                required="true" />
+        <!-- sizes -->
+        <property
+                name="gridSize100"
+                display-name-key="Grid Size 100"
+                description-key="Em mutiple of 100-value-sized grid."
+                of-type="Decimal"
+                usage="output"
+                required="true" />
+        <property
+                name="gridSize200"
+                display-name-key="Grid Size 200"
+                description-key="Em mutiple of 200-value-sized grid."
+                of-type="Decimal"
+                usage="output"
+                required="true" />
+        <property
+                name="gridSize300"
+                display-name-key="Grid Size 300"
+                description-key="Em mutiple of 300-value-sized grid."
+                of-type="Decimal"
+                usage="output"
+                required="true" />
+        <property
+                name="gridSize400"
+                display-name-key="Grid Size 400"
+                description-key="Em mutiple of 400-value-sized grid."
+                of-type="Decimal"
+                usage="output"
+                required="true" />
+        <property
+                name="gridSize500"
+                display-name-key="Grid Size 500"
+                description-key="Em mutiple of 500-value-sized grid."
+                of-type="Decimal"
+                usage="output"
+                required="true" />
+        <property
+                name="gridSize600"
+                display-name-key="Grid Size 600"
+                description-key="Em mutiple of 600-value-sized grid."
+                of-type="Decimal"
+                usage="output"
+                required="true" />
+        <property
+                name="gridSize700"
+                display-name-key="Grid Size 700"
+                description-key="Em mutiple of 700-value-sized grid."
+                of-type="Decimal"
+                usage="output"
+                required="true" />
+        <property
+                name="gridSize800"
+                display-name-key="Grid Size 800"
+                description-key="Em mutiple of 800-value-sized grid."
+                of-type="Decimal"
+                usage="output"
+                required="true" />
+        <property
+                name="gridSize900"
+                display-name-key="Grid Size 900"
+                description-key="Em mutiple of 900-value-sized grid."
+                of-type="Decimal"
+                usage="output"
+                required="true" />
+        <!--debug-->
+        <property
+                name="debugCssOutput"
+                display-name-key="Debug CSS Output"
+                description-key="Final compiled CSS added to page."
+                of-type="Multiple"
+                usage="output"
+                required="true" />
+        <property
+                name="debugLessOutput"
+                display-name-key="Debug less Output"
+                description-key="Final less to be compiled to CSS."
+                of-type="Multiple"
+                usage="output"
+                required="true" />
+        <!--end outputs-->
+        <resources>
+            <code path="index.ts"
+                  order="1" />
+            <css path="./styles/debug.css"
+                  order="1" />
+        </resources>
+    </control>
+</manifest>

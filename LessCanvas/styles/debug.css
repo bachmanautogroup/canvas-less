@@ -1,0 +1,50 @@
+/* styles for less-canvas debug window */
+
+[id^="LessCanvas-debugwindow-"] {
+
+    position: fixed;
+    width: 40em;
+    height: 3em;
+
+    font-family: sans-serif;
+
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #3c3c3c;
+    box-shadow: 8px 8px #282828;
+
+    padding: 4em 1em 1em;
+
+    overflow-y: hidden;
+    overflow-x: hidden;
+    display: flex;
+    flex-flow: column;
+    align-items: stretch;
+    max-width: 100%;
+}
+
+[id^="LessCanvas-debugwindow-"] {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+[id^="LessCanvas-debugwindow-"]:hover {
+    height: 70em;
+    overflow-y: auto;
+}
+
+[id^="LessCanvas-debugwindow-"], [id^="LessCanvas-debugwindow-"] section, [id^="LessCanvas-debugwindow-"] div {
+    border: 2px solid #3c3c3c;
+    border-radius: 4px;
+}
+
+
+[id^="LessCanvas-debugwindow-"] section {
+    flex: 1;
+    display: flex;
+    flex-flow: column;
+    background-color: rgba(226, 226, 226, 0.9)
+}
