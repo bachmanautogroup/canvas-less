@@ -1,10 +1,12 @@
 /* styles for less-canvas debug window */
 
-[id^="LessCanvas-debugwindow-"] {
 
+[id^="LessCanvas-debugwindow-"] {
     position: fixed;
-    width: 40em;
-    height: 3em;
+    width: max(30vw, 30em);
+    max-height: max(80vh, 30em);
+    top: 1em;
+    left: 1em;
 
     font-family: sans-serif;
 
@@ -12,39 +14,81 @@
     color: #3c3c3c;
     box-shadow: 8px 8px #282828;
 
-    padding: 4em 1em 1em;
+    margin: 0;
+    padding-right: 3em;
+    padding-bottom: .5em;
+    box-sizing: border-box;
 
-    overflow-y: hidden;
+    overflow-y: auto;
     overflow-x: hidden;
     display: flex;
     flex-flow: column;
     align-items: stretch;
     max-width: 100%;
+    gap: .5em;
 }
 
-[id^="LessCanvas-debugwindow-"] {
-    position: absolute;
+[id^="LessCanvas-debugwindow-"] h1 {
+    margin: .8em .2em 0;
+}
 
+[id^="LessCanvas-debugwindow-"] p {
+    margin: 0 0 0 1em;
+    padding: 0;
+}
+
+[id^="LessCanvas-debugwindow-"] section h2 {
+    position: sticky;
     top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    border: 2px solid #3c3c3c;
+    margin: 0 0 .5em;
+    padding: .2em;
+    background-color: white;
+    border-radius: 4px;
+    text-align: center;
+    box-shadow: 4px 4px #282828;
+    z-index: 2;
 }
 
-[id^="LessCanvas-debugwindow-"]:hover {
-    height: 70em;
-    overflow-y: auto;
-}
 
-[id^="LessCanvas-debugwindow-"], [id^="LessCanvas-debugwindow-"] section, [id^="LessCanvas-debugwindow-"] div {
+[id^="LessCanvas-debugwindow-"], [id^="LessCanvas-debugwindow-"] section {
     border: 2px solid #3c3c3c;
     border-radius: 4px;
 }
 
-
 [id^="LessCanvas-debugwindow-"] section {
-    flex: 1;
     display: flex;
     flex-flow: column;
-    background-color: rgba(226, 226, 226, 0.9)
+    min-height: 30em;
+    overflow-y: auto;
+    font-size: .8em;
+    background-color: rgba(226, 226, 226, 0.9);
+    margin: 0 1em;
+    padding: .5em;
+    flex: 0;
 }
+
+[id^="LessCanvas-debugwindow-"] section table {
+    text-align: initial;
+}
+
+[id^="LessCanvas-debugwindow-"] section table td {
+    min-width: 4em;
+    max-width: 4em;
+}
+
+[id^="LessCanvas-debugwindow-"] .debug-size-section td:nth-child(3) {
+    background-color: white;
+    position: relative;
+    z-index: 0;
+}
+
+[id^="LessCanvas-debugwindow-"] .debug-size-section td:nth-child(3) div {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background-color: blue;
+    height: 100%
+}
+
+

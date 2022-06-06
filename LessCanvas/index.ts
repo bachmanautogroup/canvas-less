@@ -1,4 +1,4 @@
-import { IInputs, IOutputs } from "./generated/ManifestTypes";
+import {IInputs, IOutputs} from "./generated/ManifestTypes";
 import {
     ColorHex,
     ColorSpread,
@@ -11,12 +11,10 @@ import {
 } from "./lib/style";
 import {
     buildDebugWindowHTML,
-    buildDomString,
     debug,
     error,
     makeDraggable,
 } from "./lib/util";
-
 
 
 type LessCanvasState = ComponentFramework.Dictionary & {
@@ -24,8 +22,7 @@ type LessCanvasState = ComponentFramework.Dictionary & {
 };
 
 export class LessCanvas
-    implements ComponentFramework.StandardControl<IInputs, IOutputs>
-{
+    implements ComponentFramework.StandardControl<IInputs, IOutputs> {
     private state: LessCanvasState;
     private context: ComponentFramework.Context<IInputs>;
     private notifyOutputChanged: (msg: string) => void;
@@ -82,15 +79,16 @@ export class LessCanvas
 
     private _debug: HTMLDivElement;
     get debug() {
-        const debugId = `debugwindow-${this.id}`;
         const debug =
-            document.querySelector(debugId) || document.createElement("div");
+            document.querySelector(this.debugId) || document.createElement("div");
 
         if (debug.parentElement) {
             return debug;
         }
+
         this._debug = debug as HTMLDivElement;
         this._debug.id = this.debugId;
+
         makeDraggable(this._debug);
 
         document.body.appendChild(this._debug);
@@ -103,7 +101,8 @@ export class LessCanvas
     /**
      * Empty constructor.
      */
-    constructor() {}
+    constructor() {
+    }
 
     /**
      * Used to initialize the control instance. Controls can kick off remote server calls and other initialization actions here.
@@ -303,7 +302,7 @@ export class LessCanvas
     }
 
     private async setDebug(): Promise<void> {
-        this.debug.innerHTML = buildDebugWindowHTML(
+        this.debug.innerHTML += buildDebugWindowHTML(
             this.id,
             this.colorSpread,
             this.sizeSpread,

@@ -71,7 +71,7 @@ export function makeDraggable(el: HTMLDivElement): void {
 
     el.addEventListener("mousedown", (event: Event) => {
         if (event.target !== el) {
-            return true;
+            return;
         }
 
         event.preventDefault();
@@ -84,10 +84,51 @@ export function makeDraggable(el: HTMLDivElement): void {
     });
 }
 
+
+function debugColorsSection(colorSpread: ColorSpread): HTMLElement {
+    const rows = Object.entries(colorSpread).map(([n, v]) => `<tr><td>${n}</td><td><code>${v}</code></td><td style="background-color: ${v}"></td></tr>`).join("")
+    const inner = `<h2>Color Variables</h2><table><thead><tr><th>Name</th><th>Color Hex</th><th>Swatch</th></tr></thead><tbody>${rows}</tbody></table>`
+
+    const section = document.createElement("section")
+    section.classList.add("debug-color-section")
+    section.innerHTML = inner
+    return section
+}
+
+function debugSizeSection(sizeSpread: SizeSpread): HTMLElement {
+    const rows = Object.entries(sizeSpread).map(([n, v]) => `<tr><td>${n}</td><td><code>${v.toFixed(2)}em</code></td><td><div style="min-width: ${v}em"></div></td></tr>`).join("")
+    const inner = `<h2>Size Variables</h2><table><thead><tr><th>Size</th><th>Em Multiple</th><th>Width</th></tr></thead><tbody>${rows}</tbody></table>`
+
+    const section = document.createElement("section")
+    section.classList.add("debug-size-section")
+    section.innerHTML = inner
+    return section
+}
+
+function debugCssSection(css: string): HTMLElement {
+    const section = document.createElement("section")
+    section.classList.add("debug-css-section")
+    section.innerHTML = `<h2>Compiled CSS</h2><pre>${css}</pre>`
+    return section
+}
+
+
+function debugLessSection(less: string): HTMLElement {
+ const section = document.createElement("section")
+    section.classList.add("debug-less-section")
+    section.innerHTML = `<h2>Final Less</h2><pre>${less}</pre>`
+    return section
+}
+
+//
+// function logOutput(output: string[]): HTMLElement {
+//
+// }
+
 export function buildDebugWindowHTML(
     id: string,
-    colorsSpread: ColorSpread,
-    sizeSpreadh: SizeSpread,
+    colorSpread: ColorSpread,
+    sizeSpread: SizeSpread,
     css: string,
     less: string,
     logOutput: string[]
@@ -95,7 +136,7 @@ export function buildDebugWindowHTML(
     const varsTable = document.createElement("table");
     varsTable.innerHTML = `<tr><th>Variable Name</th><th>Variable Value</th></tr>`;
     const varsTableBody = document.createElement("tbody");
-    Object.entries(colorsSpread).forEach(([name, val]) => {
+    Object.entries(colorSpread).forEach(([name, val]) => {
         const tr = document.createElement("tr");
         const tdName = document.createElement("td");
         tdName.innerText = name;
@@ -113,17 +154,11 @@ export function buildDebugWindowHTML(
     varsTable.appendChild(varsTableBody);
 
     return `
-        <input type="checkbox">
-        <h1>${id} DEBUG</h1>
-        <h2>LESS VARIABLES</h2>
-        ${varsTable.outerHTML}
-        <h2>API</h2>
-        <pre>${API}</pre>
-        <h2>FINAL LESS</h2>
-        <pre>${less}</pre>
-        <h2>COMPILED CSS</h2>
-        <pre>${css}</pre>
-        <h2>LOG OUTPUT</h2>
-        <pre>${logOutput.map((log) => `<code>${log}</code>`).join("")}</pre>
-        `;
+        <h1>${id}</h1>
+        <p>Debug Window</p>
+        ${debugColorsSection(colorSpread).outerHTML}
+        ${debugSizeSection(sizeSpread).outerHTML}
+        ${debugLessSection(less).outerHTML}
+        ${debugCssSection(css).outerHTML}
+        `
 }
