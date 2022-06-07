@@ -1,3 +1,9 @@
 {
-  "extends": "./node_modules/pcf-scripts/tsconfig_base.json"
+  "extends": "./node_modules/pcf-scripts/tsconfig_base.json",
+  "compilerOptions": {
+    "target": "ES6",
+    "typeRoots": [
+      "node_modules/@types"
+    ]
+  }
 }

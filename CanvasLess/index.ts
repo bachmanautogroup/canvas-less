@@ -1,7 +1,7 @@
 import {
     auditTime,
     BehaviorSubject,
-    combineLatest,
+    combineLatest, debounceTime,
     isObservable,
     map,
     Observable,
@@ -75,28 +75,9 @@ export class CanvasLess implements ComponentFramework.StandardControl<IInputs, I
         return `LessCanvas-debugwindow-${this.id}`
     }
 
-    private outputLog: string[] = [];
+    private outputLog: string[];
 
-    private _inputs$: BehaviorSubject<IInputs>;
-    get inputs$(): BehaviorSubject<IInputs> {
-        return this._inputs$
-    }
-
-    set inputs$(values: IInputs | BehaviorSubject<IInputs>) {
-        if (isObservable(values)) {
-            if (this._inputs$) {
-                this._inputs$.pipe(switchMap(() => values))
-            } else {
-                this._inputs$ = values;
-            }
-        } else {
-            if (!this._inputs$) {
-                this._inputs$ = new BehaviorSubject<IInputs>(values)
-            } else {
-                this._inputs$.next(values);
-            }
-        }
-    }
+    private inputs$: BehaviorSubject<IInputs>;
 
     private parameters: Parameters;
 
@@ -105,12 +86,12 @@ export class CanvasLess implements ComponentFramework.StandardControl<IInputs, I
     less$: Observable<string>;
     css$: Observable<string>;
 
-    private outputs$: BehaviorSubject<IOutputs>;
+    private outputs$: BehaviorSubject<IOutputs> = new BehaviorSubject<IOutputs>({});
 
     public init(
         context: ComponentFramework.Context<IInputs>,
         notifyOutputChanged: () => void,
-        state: ComponentFramework.Dictionary = {},
+        state: ComponentFramework.Dictionary,
         container: HTMLDivElement
     ): void {
         this.control = {
@@ -121,9 +102,10 @@ export class CanvasLess implements ComponentFramework.StandardControl<IInputs, I
         this.control.context.mode.trackContainerResize(true)
 
         this.control.container.id = this.debugId
-        this.outputLog = state.outputLog = state.outputLog || this.outputLog;
 
-        this.inputs$ = context.parameters
+        this.outputLog = []
+
+        this.inputs$ = new BehaviorSubject<IInputs>(context.parameters)
 
         this.parameters = this.makeParameters();
 
@@ -140,8 +122,16 @@ export class CanvasLess implements ComponentFramework.StandardControl<IInputs, I
     }
 
     public updateView(context: ComponentFramework.Context<IInputs>): void {
-        if (context.updatedProperties.length > 0) {
-            this.inputs$ = context.parameters;
+        if (context.updatedProperties.some(s =>
+            (s.includes("color") || s.includes("size") || s.includes("style"))
+            && s in context.parameters)
+        ) {
+            this.inputs$.next(context.parameters);
+        }
+
+        if (context.updatedProperties.includes("layout")) {
+            this.control.container.style.maxHeight = `${this.control.context.mode.allocatedHeight || 0}px`
+            this.control.container.style.maxWidth = `${this.control.context.mode.allocatedWidth || 0}px`
         }
     }
 
@@ -182,7 +172,7 @@ export class CanvasLess implements ComponentFramework.StandardControl<IInputs, I
             colorWarningMagnitude$: this.inputs$.pipe(map(p => mapType(p.colorWarningMagnitude, "number"))),
             keepStyle$: this.inputs$.pipe(map(p => mapType(p.keepStyle, "boolean"))),
             sizeEmGridSeed$: this.inputs$.pipe(map(p => mapType(p.sizeEmGridSeed, "number"))),
-            style$: this.inputs$.pipe(map(p => mapType(p.style, "string")))
+            style$: this.inputs$.pipe(map(p => mapType(p.style, "string")), debounceTime(2000)) // debounce to make typing directly in the PowerApps formula bar easier
         }
     }
 
@@ -283,7 +273,7 @@ export class CanvasLess implements ComponentFramework.StandardControl<IInputs, I
     }
 
     private makeStyle(): void {
-        const styleObservable = this.outputs$.pipe(pluck("css")) as Observable<string>;
+        const styleObservable = this.outputs$.pipe(pluck("css"));
 
         let keepOnComplete = false;
         styleObservable.pipe(
@@ -291,7 +281,7 @@ export class CanvasLess implements ComponentFramework.StandardControl<IInputs, I
             tap(([, keep]) => keepOnComplete = keep)
         ).subscribe({
             next: ([style,]) => {
-                createStyleElement(style, this.id)
+                createStyleElement(style || "", this.id)
             },
             error: (err: any) => {
                 error(err as Error, this.outputLog)
@@ -307,8 +297,8 @@ export class CanvasLess implements ComponentFramework.StandardControl<IInputs, I
     private makeDebug(): void {
         combineLatest([this.less$, this.css$, this.colors$, this.sizes$])
             .subscribe(([less, css, colors, sizes]) => {
-                this.control.container.style.maxHeight = `${this.control.context.mode.allocatedHeight}px`
-                this.control.container.style.maxWidth = `${this.control.context.mode.allocatedWidth}px`
+                this.control.container.style.maxHeight = `${this.control.context.mode.allocatedHeight || 0}px`
+                this.control.container.style.maxWidth = `${this.control.context.mode.allocatedWidth || 0}px`
 
                 this.control.container.innerHTML = buildControlHTML(
                     this.debugId,

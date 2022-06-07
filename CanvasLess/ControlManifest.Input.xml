@@ -2,12 +2,9 @@
 <manifest>
     <control namespace="BachmanCanvas"
              constructor="CanvasLess"
-             version="0.6.0"
+             version="0.7.0"
              display-name-key="CanvasLess"
-             description-key="
-                Used to apply lesscss formatted stylesheets to Canvas controls.
-                Set .showDebug to True to see API and debug output in an overlay window.
-                See https://lesscss.org for less documentation."
+             description-key="Used to apply lesscss formatted stylesheets to Canvas controls. See https://lesscss.org for less documentation."
              control-type="standard">
         <!-- inputs -->
         <property
@@ -21,13 +18,6 @@
                 name="keepStyle"
                 display-name-key="Keep Style"
                 description-key="Set to True to allow style element to persist after control is destroyed."
-                of-type="TwoOptions"
-                usage="input"
-                required="true"/>
-        <property
-                name="showDebug"
-                display-name-key="Show Debug"
-                description-key="Set to True to show a window with the final compiled color/size spreads, CSS, less, and a simplified canvas-app DOM along with API details."
                 of-type="TwoOptions"
                 usage="input"
                 required="true"/>
