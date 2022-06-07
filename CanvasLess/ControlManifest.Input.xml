@@ -2,7 +2,7 @@
 <manifest>
     <control namespace="BachmanCanvas"
              constructor="CanvasLess"
-             version="0.7.0"
+             version="0.9.3"
              display-name-key="CanvasLess"
              description-key="Used to apply lesscss formatted stylesheets to Canvas controls. See https://lesscss.org for less documentation."
              control-type="standard">
@@ -13,165 +13,178 @@
                 description-key="less formatted CSS for styling app"
                 of-type="Multiple"
                 usage="input"
-                required="true"/>
+                required="true" />
         <property
                 name="keepStyle"
                 display-name-key="Keep Style"
                 description-key="Set to True to allow style element to persist after control is destroyed."
                 of-type="TwoOptions"
                 usage="input"
-                required="true"/>
+                required="true" />
+        <property
+                name="showDebug"
+                display-name-key="Show Debug"
+                description-key="Set to True to show the debug window in the control container."
+                of-type="TwoOptions"
+                usage="input"
+                required="true" />
         <property name="sizeEmGridSeed"
                   display-name-key="Grid-Size Em Multiple Seed"
-                  description-key="sizeEmGridSeed"
+                  description-key="Smallest Em multiple for layout grid."
                   of-type="Decimal"
                   usage="input"
-                  required="true"/>
+                  required="true" />
+        <property name="sizeEmGridMult"
+                  display-name-key="Grid-Size Em Multiplier"
+                  description-key="Affects range of size grid values."
+                  of-type="Decimal"
+                  usage="input"
+                  required="true" />
         <!-- colors -->
         <property name="colorPrimaryMagnitude"
                   display-name-key="Primary Color Magnitude Value"
                   description-key="colorPrimaryMagnitude"
                   of-type="Decimal"
                   usage="input"
-                  required="true"/>
+                  required="true" />
         <property name="colorPrimaryEase"
                   display-name-key="Primary Color Ease Value"
                   description-key="colorPrimaryEase"
                   of-type="Decimal"
                   usage="input"
-                  required="true"/>
+                  required="true" />
         <property name="colorPrimarySeed"
                   display-name-key="Primary Color Seed Hex"
                   description-key="colorPrimarySeed"
                   of-type="SingleLine.Text"
                   usage="input"
-                  required="true"/>
+                  required="true" />
         <property name="colorSecondaryMagnitude"
                   display-name-key="Secondary Color Magnitude Value"
                   description-key="colorSecondaryMagnitude"
                   of-type="Decimal"
                   usage="input"
-                  required="true"/>
+                  required="true" />
         <property name="colorSecondaryEase"
                   display-name-key="Secondary Color Ease Value"
                   description-key="colorSecondaryEase"
                   of-type="Decimal"
                   usage="input"
-                  required="true"/>
+                  required="true" />
         <property name="colorSecondarySeed"
                   display-name-key="Secondary Color Seed Hex"
                   description-key="colorSecondarySeed"
                   of-type="SingleLine.Text"
                   usage="input"
-                  required="true"/>
+                  required="true" />
         <property name="colorTertiaryMagnitude"
                   display-name-key="Tertiary Color Magnitude Value"
                   description-key="colorTertiaryMagnitude"
                   of-type="Decimal"
                   usage="input"
-                  required="true"/>
+                  required="true" />
         <property name="colorTertiaryEase"
                   display-name-key="Tertiary Color Ease Value"
                   description-key="colorTertiaryEase"
                   of-type="Decimal"
                   usage="input"
-                  required="true"/>
+                  required="true" />
         <property name="colorTertiarySeed"
                   display-name-key="Tertiary Color Seed Hex"
                   description-key="colorTertiarySeed"
                   of-type="SingleLine.Text"
                   usage="input"
-                  required="true"/>
+                  required="true" />
         <property name="colorNeutralMagnitude"
                   display-name-key="Neutral Color Magnitude Value"
                   description-key="colorNeutralMagnitude"
                   of-type="Decimal"
                   usage="input"
-                  required="true"/>
+                  required="true" />
         <property name="colorNeutralEase"
                   display-name-key="Neutral Color Ease Value"
                   description-key="colorNeutralEase"
                   of-type="Decimal"
                   usage="input"
-                  required="true"/>
+                  required="true" />
         <property name="colorNeutralSeed"
                   display-name-key="Neutral Color Seed Hex"
                   description-key="colorNeutralSeed"
                   of-type="SingleLine.Text"
                   usage="input"
-                  required="true"/>
+                  required="true" />
         <property name="colorInfoMagnitude"
                   display-name-key="Info Color Magnitude Value"
                   description-key="colorInfoMagnitude"
                   of-type="Decimal"
                   usage="input"
-                  required="true"/>
+                  required="true" />
         <property name="colorInfoEase"
                   display-name-key="Info Color Ease Value"
                   description-key="colorInfoEase"
                   of-type="Decimal"
                   usage="input"
-                  required="true"/>
+                  required="true" />
         <property name="colorInfoSeed"
                   display-name-key="Info Color Seed Hex"
                   description-key="colorInfoSeed"
                   of-type="SingleLine.Text"
                   usage="input"
-                  required="true"/>
+                  required="true" />
         <property name="colorSuccessMagnitude"
                   display-name-key="Success Color Magnitude Value"
                   description-key="colorSuccessMagnitude"
                   of-type="Decimal"
                   usage="input"
-                  required="true"/>
+                  required="true" />
         <property name="colorSuccessEase"
                   display-name-key="Success Color Ease Value"
                   description-key="colorSuccessEase"
                   of-type="Decimal"
                   usage="input"
-                  required="true"/>
+                  required="true" />
         <property name="colorSuccessSeed"
                   display-name-key="Success Color Seed Hex"
                   description-key="colorSuccessSeed"
                   of-type="SingleLine.Text"
                   usage="input"
-                  required="true"/>
+                  required="true" />
         <property name="colorWarningMagnitude"
                   display-name-key="Warning Color Magnitude Value"
                   description-key="colorWarningMagnitude"
                   of-type="Decimal"
                   usage="input"
-                  required="true"/>
+                  required="true" />
         <property name="colorWarningEase"
                   display-name-key="Warning Color Ease Value"
                   description-key="colorWarningEase"
                   of-type="Decimal"
                   usage="input"
-                  required="true"/>
+                  required="true" />
         <property name="colorWarningSeed"
                   display-name-key="Warning Color Seed Hex"
                   description-key="colorWarningSeed"
                   of-type="SingleLine.Text"
                   usage="input"
-                  required="true"/>
+                  required="true" />
         <property name="colorDangerMagnitude"
                   display-name-key="Danger Color Magnitude Value"
                   description-key="colorDangerMagnitude"
                   of-type="Decimal"
                   usage="input"
-                  required="true"/>
+                  required="true" />
         <property name="colorDangerEase"
                   display-name-key="Danger Color Ease Value"
                   description-key="colorDangerEase"
                   of-type="Decimal"
                   usage="input"
-                  required="true"/>
+                  required="true" />
         <property name="colorDangerSeed"
                   display-name-key="Danger Color Seed Hex"
                   description-key="colorDangerSeed"
                   of-type="SingleLine.Text"
                   usage="input"
-                  required="true"/>
+                  required="true" />
         <!-- outputs -->
         <!-- colors -->
         <!-- theme -->
@@ -182,63 +195,63 @@
                 description-key="Hex value of 100-value primary theme color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorPrimary200"
                 display-name-key="Primary Color 200"
                 description-key="Hex value of 200-value primary theme color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorPrimary300"
                 display-name-key="Primary Color 300"
                 description-key="Hex value of 300-value primary theme color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorPrimary400"
                 display-name-key="Primary Color 400"
                 description-key="Hex value of 400-value primary theme color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorPrimary500"
                 display-name-key="Primary Color 500"
                 description-key="Hex value of 500-value primary theme color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorPrimary600"
                 display-name-key="Primary Color 600"
                 description-key="Hex value of 600-value primary theme color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorPrimary700"
                 display-name-key="Primary Color 700"
                 description-key="Hex value of 700-value primary theme color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorPrimary800"
                 display-name-key="Primary Color 800"
                 description-key="Hex value of 800-value primary theme color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorPrimary900"
                 display-name-key="Primary Color 900"
                 description-key="Hex value of 900-value primary theme color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <!-- secondary -->
         <property
                 name="colorSecondary100"
@@ -246,63 +259,63 @@
                 description-key="Hex value of 100-value secondary theme color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorSecondary200"
                 display-name-key="Secondary Color 200"
                 description-key="Hex value of 200-value secondary theme color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorSecondary300"
                 display-name-key="Secondary Color 300"
                 description-key="Hex value of 300-value secondary theme color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorSecondary400"
                 display-name-key="Secondary Color 400"
                 description-key="Hex value of 400-value secondary theme color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorSecondary500"
                 display-name-key="Secondary Color 500"
                 description-key="Hex value of 500-value secondary theme color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorSecondary600"
                 display-name-key="Secondary Color 600"
                 description-key="Hex value of 600-value secondary theme color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorSecondary700"
                 display-name-key="Secondary Color 700"
                 description-key="Hex value of 700-value secondary theme color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorSecondary800"
                 display-name-key="Secondary Color 800"
                 description-key="Hex value of 800-value secondary theme color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorSecondary900"
                 display-name-key="Secondary Color 900"
                 description-key="Hex value of 900-value secondary theme color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <!-- tertiary -->
         <property
                 name="colorTertiary100"
@@ -310,63 +323,63 @@
                 description-key="Hex value of 100-value tertiary theme color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorTertiary200"
                 display-name-key="Tertiary Color 200"
                 description-key="Hex value of 200-value tertiary theme color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorTertiary300"
                 display-name-key="Tertiary Color 300"
                 description-key="Hex value of 300-value tertiary theme color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorTertiary400"
                 display-name-key="Tertiary Color 400"
                 description-key="Hex value of 400-value tertiary theme color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorTertiary500"
                 display-name-key="Tertiary Color 500"
                 description-key="Hex value of 500-value tertiary theme color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorTertiary600"
                 display-name-key="Tertiary Color 600"
                 description-key="Hex value of 600-value tertiary theme color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorTertiary700"
                 display-name-key="Tertiary Color 700"
                 description-key="Hex value of 700-value tertiary theme color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorTertiary800"
                 display-name-key="Tertiary Color 800"
                 description-key="Hex value of 800-value tertiary theme color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorTertiary900"
                 display-name-key="Tertiary Color 900"
                 description-key="Hex value of 900-value tertiary theme color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <!-- neutral -->
         <property
                 name="colorNeutral100"
@@ -374,63 +387,63 @@
                 description-key="Hex value of 100-value neutral color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorNeutral200"
                 display-name-key="Neutral Color 200"
                 description-key="Hex value of 200-value neutral color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorNeutral300"
                 display-name-key="Neutral Color 300"
                 description-key="Hex value of 300-value neutral color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorNeutral400"
                 display-name-key="Neutral Color 400"
                 description-key="Hex value of 400-value neutral color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorNeutral500"
                 display-name-key="Neutral Color 500"
                 description-key="Hex value of 500-value neutral color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorNeutral600"
                 display-name-key="Neutral Color 600"
                 description-key="Hex value of 600-value neutral color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorNeutral700"
                 display-name-key="Neutral Color 700"
                 description-key="Hex value of 700-value neutral color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorNeutral800"
                 display-name-key="Neutral Color 800"
                 description-key="Hex value of 800-value neutral color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorNeutral900"
                 display-name-key="Neutral Color 900"
                 description-key="Hex value of 900-value neutral color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <!-- semantic -->
         <!-- info -->
         <property
@@ -439,63 +452,63 @@
                 description-key="Hex value of 100-value info color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorInfo200"
                 display-name-key="info Color 200"
                 description-key="Hex value of 200-value info color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorInfo300"
                 display-name-key="info Color 300"
                 description-key="Hex value of 300-value info color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorInfo400"
                 display-name-key="info Color 400"
                 description-key="Hex value of 400-value info color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorInfo500"
                 display-name-key="info Color 500"
                 description-key="Hex value of 500-value info color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorInfo600"
                 display-name-key="info Color 600"
                 description-key="Hex value of 600-value info color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorInfo700"
                 display-name-key="info Color 700"
                 description-key="Hex value of 700-value info color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorInfo800"
                 display-name-key="info Color 800"
                 description-key="Hex value of 800-value info color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorInfo900"
                 display-name-key="info Color 900"
                 description-key="Hex value of 900-value info color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <!-- success -->
         <property
                 name="colorSuccess100"
@@ -503,63 +516,63 @@
                 description-key="Hex value of 100-value success color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorSuccess200"
                 display-name-key="success Color 200"
                 description-key="Hex value of 200-value success color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorSuccess300"
                 display-name-key="success Color 300"
                 description-key="Hex value of 300-value success color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorSuccess400"
                 display-name-key="success Color 400"
                 description-key="Hex value of 400-value success color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorSuccess500"
                 display-name-key="success Color 500"
                 description-key="Hex value of 500-value success color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorSuccess600"
                 display-name-key="success Color 600"
                 description-key="Hex value of 600-value success color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorSuccess700"
                 display-name-key="success Color 700"
                 description-key="Hex value of 700-value success color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorSuccess800"
                 display-name-key="success Color 800"
                 description-key="Hex value of 800-value success color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorSuccess900"
                 display-name-key="success Color 900"
                 description-key="Hex value of 900-value success color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <!-- warning -->
         <property
                 name="colorWarning100"
@@ -567,63 +580,63 @@
                 description-key="Hex value of 100-value warning color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorWarning200"
                 display-name-key="warning Color 200"
                 description-key="Hex value of 200-value warning color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorWarning300"
                 display-name-key="warning Color 300"
                 description-key="Hex value of 300-value warning color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorWarning400"
                 display-name-key="warning Color 400"
                 description-key="Hex value of 400-value warning color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorWarning500"
                 display-name-key="warning Color 500"
                 description-key="Hex value of 500-value warning color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorWarning600"
                 display-name-key="warning Color 600"
                 description-key="Hex value of 600-value warning color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorWarning700"
                 display-name-key="warning Color 700"
                 description-key="Hex value of 700-value warning color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorWarning800"
                 display-name-key="warning Color 800"
                 description-key="Hex value of 800-value warning color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorWarning900"
                 display-name-key="warning Color 900"
                 description-key="Hex value of 900-value warning color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <!-- danger -->
         <property
                 name="colorDanger100"
@@ -631,63 +644,63 @@
                 description-key="Hex value of 100-value danger color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorDanger200"
                 display-name-key="danger Color 200"
                 description-key="Hex value of 200-value danger color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorDanger300"
                 display-name-key="danger Color 300"
                 description-key="Hex value of 300-value danger color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorDanger400"
                 display-name-key="danger Color 400"
                 description-key="Hex value of 400-value danger color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorDanger500"
                 display-name-key="danger Color 500"
                 description-key="Hex value of 500-value danger color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorDanger600"
                 display-name-key="danger Color 600"
                 description-key="Hex value of 600-value danger color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorDanger700"
                 display-name-key="danger Color 700"
                 description-key="Hex value of 700-value danger color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorDanger800"
                 display-name-key="danger Color 800"
                 description-key="Hex value of 800-value danger color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="colorDanger900"
                 display-name-key="danger Color 900"
                 description-key="Hex value of 900-value danger color"
                 of-type="SingleLine.Text"
                 usage="output"
-                required="true"/>
+                required="true" />
         <!-- sizes -->
         <property
                 name="gridSize100"
@@ -695,63 +708,63 @@
                 description-key="Em mutiple of 100-value-sized grid."
                 of-type="Decimal"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="gridSize200"
                 display-name-key="Grid Size 200"
                 description-key="Em mutiple of 200-value-sized grid."
                 of-type="Decimal"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="gridSize300"
                 display-name-key="Grid Size 300"
                 description-key="Em mutiple of 300-value-sized grid."
                 of-type="Decimal"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="gridSize400"
                 display-name-key="Grid Size 400"
                 description-key="Em mutiple of 400-value-sized grid."
                 of-type="Decimal"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="gridSize500"
                 display-name-key="Grid Size 500"
                 description-key="Em mutiple of 500-value-sized grid."
                 of-type="Decimal"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="gridSize600"
                 display-name-key="Grid Size 600"
                 description-key="Em mutiple of 600-value-sized grid."
                 of-type="Decimal"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="gridSize700"
                 display-name-key="Grid Size 700"
                 description-key="Em mutiple of 700-value-sized grid."
                 of-type="Decimal"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="gridSize800"
                 display-name-key="Grid Size 800"
                 description-key="Em mutiple of 800-value-sized grid."
                 of-type="Decimal"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="gridSize900"
                 display-name-key="Grid Size 900"
                 description-key="Em mutiple of 900-value-sized grid."
                 of-type="Decimal"
                 usage="output"
-                required="true"/>
+                required="true" />
         <!--debug-->
         <property
                 name="css"
@@ -759,20 +772,20 @@
                 description-key="Final compiled CSS added to page."
                 of-type="Multiple"
                 usage="output"
-                required="true"/>
+                required="true" />
         <property
                 name="less"
                 display-name-key="Final less Output"
                 description-key="Final less to be compiled to CSS."
                 of-type="Multiple"
                 usage="output"
-                required="true"/>
+                required="true" />
         <!--end outputs-->
         <resources>
             <code path="index.ts"
-                  order="1"/>
+                  order="1" />
             <css path="./styles/debug.css"
-                 order="1"/>
+                 order="1" />
         </resources>
     </control>
 </manifest>

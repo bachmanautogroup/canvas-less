@@ -4,8 +4,6 @@
 [id^="LessCanvas-debugwindow-"] {
     font-family: sans-serif;
 
-    font-size: 12px;
-
     background-color: rgba(255, 255, 255, 0.9);
     color: #3c3c3c;
 
@@ -18,6 +16,10 @@
     text-align: left;
 
     scroll-snap-type: y mandatory;
+}
+
+[id^="LessCanvas-debugwindow-"]:empty {
+    display: none;
 }
 
 [id^="LessCanvas-debugwindow-"] h1 {
@@ -34,7 +36,6 @@
     display: flex;
     flex-flow: column;
     overflow-y: auto;
-    font-size: .8em;
     background-color: rgba(226, 226, 226, 0.9);
     margin: 0 1em .5em;
     padding: .5em;
@@ -44,11 +45,6 @@
 
 [id^="LessCanvas-debugwindow-"] section table {
     text-align: initial;
-}
-
-[id^="LessCanvas-debugwindow-"] section table td {
-    min-width: 4em;
-    max-width: 4em;
 }
 
 [id^="LessCanvas-debugwindow-"] section h2 {
@@ -66,6 +62,11 @@
     text-align: left;
     z-index: 2;
 }
+
+[id^="LessCanvas-debugwindow-"] td:nth-child(3) {
+    width: 20em;
+}
+
 
 [id^="LessCanvas-debugwindow-"] .debug-size-section td:nth-child(3) {
     background-color: white;
