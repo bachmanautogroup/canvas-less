@@ -12,7 +12,8 @@
     "dependencies": {
         "@types/less": "^3.0.3",
         "chroma-js": "^2.4.2",
-        "less": "^4.1.2"
+        "less": "^4.1.2",
+        "rxjs": "^7.5.5"
     },
     "devDependencies": {
         "@types/chroma-js": "^2.1.3",
