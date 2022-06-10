@@ -19,26 +19,48 @@ export type LogSubject = ReplaySubject<string>;
 
 const API = `
 <code>
-.control([ControlName], [rule], [fillRule])
-.container([ControlName], [rule], [fillRule])
-.part([PartName], [rule], [fillRule])
+.control(@ControlName, @rule, @fillRule)
 </code>
 
-where [rule] and [fillRule] are CSS rulesets <strong>enclosed in brackets</strong>
+@ControlName: string label of the control in the canvas editor
+@rule: less ruleset to be applied within the scope of the control.
+@fillRule: less ruleset to be applied to the fill container of the control (provided for convenience; optional)
 
-Rulesets in the [rule] param are nested into the Control's root HTML element.
-[fillRule] is provided for applying rulesets to the controls 'borderfill-container', to which customizations added in Canvas like fill and borderStyle are applied.
-Nest these as necessary for specific hierarchies.
-
-For example:
+Used to apply styles to canvas controls.
 
 <code>
-.control(SearchInput, {
-    cursor: pointer;
-}, {
-    background-color: red;
-})
+ex: 
+.control(SearchLayout, 
+{
+    color: red;
+    font-style: italic;
+}, 
+{
+    background-color: white;
+    border-radius: 4px;
+});
 </code>
+
+<code>
+.container(@ControlName, @rule, @fillRule)
+</code>
+
+@ControlName: string label of the control in the canvas editor
+@rule: less ruleset to be applied within the scope of the control's container div.
+@fillRule: less ruleset to be applied to the fill container of the control's container (provided for convenience; optional)
+
+<code>
+.part(@PartName, @rule, @fillRule)
+</code>
+
+@PartName: string label of the part type. eg., text, gallery-item 
+@rule: less ruleset to be applied within the scope of the control's container div.
+@fillRule: less ruleset to be applied to the fill container of the control's container (provided for convenience; optional)
+
+
+For easier design iteration, download overrides.less and customize and compile to CSS locally. 
+Then, use Chrome DevTools local overrides to replace the overrides.css with the local output. 
+Chrome will watch this file and automatically reflect changes as they occur.
 `;
 
 const DEPTH_INDENT = 2;
@@ -117,10 +139,36 @@ function debugCssSection(css: string): HTMLElement {
     return section;
 }
 
-function debugLessSection(less: string): HTMLElement {
+function colorSpreadVarsString(spread: ColorSpread): string {
+    return Object.entries(spread)
+        .map(([k, v]) => `@${k}: ${v};`)
+        .join("\n");
+}
+
+function sizeSpreadVarsString(spread: SizeSpread): string {
+    return Object.entries(spread)
+        .map(([k, v]) => `@${k}: ${v.toFixed(2)}em;`)
+        .join("\n");
+}
+
+function debugLessSection(
+    less: string,
+    colors: ColorSpread,
+    sizes: SizeSpread
+): HTMLElement {
     const section = document.createElement("section");
     section.classList.add("debug-less-section");
-    section.innerHTML = `<h2>Final Less</h2><pre>${less}</pre>`;
+
+    const overrides = [
+        colorSpreadVarsString(colors),
+        sizeSpreadVarsString(sizes),
+        less,
+    ].join("\n");
+    const encoded = btoa(overrides);
+    const href = `data:text/less;base64,${encoded}`;
+    section.innerHTML = `<h2>Final Less</h2>
+        <a href="${href}" target="_blank" download="overrides.less">overrides.less</a>
+        <pre>${overrides}</pre>`;
     return section;
 }
 
@@ -166,12 +214,13 @@ function debugHTML(
     domString: string
 ): string {
     return `
+        <link rel="stylesheet" type="text/less" src="./styles/overrides.less">
         <p>CanvasLess debug window. Toggle <code>Show Debug</code> to <code>False</code> to hide.</p>
         ${debugCssSection(css).outerHTML}
         ${debugColorsSection(colorSpread).outerHTML}
         ${debugSizeSection(sizeSpread).outerHTML}
         ${debugAPISection().outerHTML}
-        ${debugLessSection(less).outerHTML}
+        ${debugLessSection(less, colorSpread, sizeSpread).outerHTML}
         ${debugLogSection(logOutput).outerHTML},
         ${debugDOMStringSection(domString).outerHTML}
         `;

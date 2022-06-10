@@ -1,0 +1,5 @@
+/* To be overridden during development using Chrome DevTools Local Overrides. Does not apply any styling. */
+
+body {
+    --canvas-less-overrides: none;
+}

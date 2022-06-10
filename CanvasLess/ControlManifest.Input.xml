@@ -2,7 +2,7 @@
 <manifest>
     <control namespace="BachmanCanvas"
              constructor="CanvasLess"
-             version="0.9.6"
+             version="1.0.1"
              display-name-key="CanvasLess"
              description-key="Used to apply lesscss formatted stylesheets to Canvas controls. See https://lesscss.org for less documentation."
              control-type="standard">
@@ -785,6 +785,8 @@
             <code path="index.ts"
                   order="1" />
             <css path="./styles/container.css"
+                 order="2" />
+            <css path="./styles/overrides.css"
                  order="1" />
         </resources>
     </control>

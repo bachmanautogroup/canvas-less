@@ -46,7 +46,6 @@
     text-align: left;
 }
 
-
 [id$="-debugcontainer"] section table {
     text-align: initial;
 }
@@ -105,6 +104,13 @@
     padding-right: 1em;
     color: blue;
     text-decoration: underline;
+}
+
+[id$="-debugcontainer"] .debug-less-section a {
+    padding-left: 1em;
+    padding-bottom: .5em;
+    border-bottom: 1px solid black;
+    font-size: 1.2em;
 }
 
 [id$="-debugcontainer"] .debug-log-section a:hover::after {

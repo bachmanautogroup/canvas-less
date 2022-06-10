@@ -7,61 +7,65 @@ import { error, LogSubject } from "./debug";
 export const CANVAS_DATA_CONTROL_NAME = "data-control-name";
 export const CANVAS_DATA_CONTAINER_NAME = "data-container-name";
 export const CANVAS_DATA_CONTROL_PART = "data-control-part";
+
 const CANVAS_APP_SELECTOR = ".app-canvas";
+const CANVAS_FLYOUT_SELECTOR = ".powerapps-flyout-portal";
 
 const FILL_SELECTOR = ".appmagic-borderfill-container";
 
 const INPUT_REPLACE_VAR = "%%input%%";
 
 const CANVAS_LESS = `
-// LessCanvas styles
+// CanvasLess styles
+    
+@app: ${CANVAS_APP_SELECTOR};
+@flyout: ${CANVAS_FLYOUT_SELECTOR};
 
-${CANVAS_APP_SELECTOR} {
+.control(@name, @rule, @fillRule: {}) {
+    @_controlDataAttribute: ${CANVAS_DATA_CONTROL_NAME};
+    @controlSelector: %(~'[%s=%s]', @_controlDataAttribute, %('%s', @name));
 
-    .control(@name, @rule, @fillRule: {}) {
-        @_controlDataAttribute: ${CANVAS_DATA_CONTROL_NAME};
-        @controlSelector: %(~'[%s=%s]', @_controlDataAttribute, %('%s', @name));
-    
-        & @{controlSelector} {
-            @rule();
-            
-            & > div > ${FILL_SELECTOR}, & > ${FILL_SELECTOR} {
-                @fillRule()
-            }
+    & @{controlSelector} {
+        @rule();
+        
+        & > div > ${FILL_SELECTOR}, & > ${FILL_SELECTOR} {
+            @fillRule()
         }
     }
-    
-    .container(@name, @rule, @fillRule: {}) {
-        @_containerDataAttribute: ${CANVAS_DATA_CONTAINER_NAME};
-        @containerSelector: %(~'[%s=%s]', @_containerDataAttribute, %('%s-container', @name));
-    
-        & @{containerSelector} {
-            @rule();
-            
-            & > div > ${FILL_SELECTOR}, & > ${FILL_SELECTOR} {
-                @fillRule()
-            }
-        }
-    }
-    
-    .part(@partName, @rule, @fillRule: {}) {
-        @_partDataAttribute: ${CANVAS_DATA_CONTROL_PART};
-        @partSelector: %(~'[%s=%s]', @_partDataAttribute, %('%s', @partName));
-    
-        & @{partSelector} {
-            @rule()
-            
-            & > div > ${FILL_SELECTOR}, & > ${FILL_SELECTOR} {
-                @fillRule()
-            }
-        }
-    }
-    
-    // user styles begin
-    ${INPUT_REPLACE_VAR}
-    // user styles end
-    
 }
+
+.container(@name, @rule, @fillRule: {}) {
+    @_containerDataAttribute: ${CANVAS_DATA_CONTAINER_NAME};
+    @containerSelector: %(~'[%s=%s]', @_containerDataAttribute, %('%s-container', @name));
+
+    & @{containerSelector} {
+        @rule();
+        
+        & > div > ${FILL_SELECTOR}, & > ${FILL_SELECTOR} {
+            @fillRule()
+        }
+    }
+}
+
+.part(@partName, @rule, @fillRule: {}) {
+    @_partDataAttribute: ${CANVAS_DATA_CONTROL_PART};
+    @partSelector: %(~'[%s=%s]', @_partDataAttribute, %('%s', @partName));
+
+    & @{partSelector} {
+        @rule()
+        
+        & > div > ${FILL_SELECTOR}, & > ${FILL_SELECTOR} {
+            @fillRule()
+        }
+    }
+}
+
+// user styles begin
+
+${INPUT_REPLACE_VAR}
+
+// user styles end
+
 `;
 
 function placeInputLess(input: string): string {
@@ -82,7 +86,7 @@ export function buildCSS(
         switchMap(async (dep) => {
             const { less, ...vars } = dep;
             const stringSizes: Record<string, string> = {};
-            for (const [k, v] of Object.entries(vars.sizes)) {
+            for (const [k, v] of Object.entries<number>(vars.sizes)) {
                 stringSizes[k] = `${v.toFixed(2)}em`;
             }
 
