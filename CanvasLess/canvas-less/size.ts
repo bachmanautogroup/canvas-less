@@ -20,8 +20,10 @@ function subdivideSize(mid: number, subdivision: number): number {
 function spreadSizes(mid: number, mult: number): SizeSpread {
     const spread: Partial<SizeSpread> = {};
 
+    mult = mult / 100
+
     for (let i = 1; i <= GRID_SPREAD_CT; i++) {
-        const normalized = 2 * (i / GRID_SPREAD_CT) - 1;
+        const normalized = 2 * ((i - 1) / (GRID_SPREAD_CT - 1)) - 1;
         const subdivision = mult * normalized;
 
         const label: SizeOutputKey = `gridSize${i * 100}`;

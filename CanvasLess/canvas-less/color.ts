@@ -1,5 +1,5 @@
-import { map, Observable, combineLatest, auditTime } from "rxjs";
-import { Color, hex }                                from "chroma-js";
+import { map, Observable, combineLatest } from "rxjs";
+import { hex, Scale, scale } from "chroma-js";
 
 import { ControlInputObservables } from "./params";
 import { ObservedObject } from "./util";
@@ -9,7 +9,7 @@ type ObservableColorInputs = Omit<
     "style" | "keepStyle" | "sizeEmGridMult" | "sizeEmGridSeed" | "showDebug"
 >;
 
-const COLOR_SPREAD_CT = 9;
+const COLOR_CT = 9;
 const HEX_COLOR_PATTERN = /^#(?:[0-9a-fA-F]{3}){1,2}$/;
 const ERROR_COLOR_HEX = "#FF69B4";
 
@@ -31,42 +31,42 @@ type OutputColorKey<D extends Domain = Domain> = `color${D}${number}`;
 
 export type ColorSpread = Record<OutputColorKey, string>;
 
-function translateColor(
-    middle: Color,
-    saturate: number,
-    brighten: number
-): Color {
-    return middle.saturate(saturate).brighten(brighten);
+function colorScale(hexString: string, ease: number, magnitude: number): Scale {
+    const middle = hex(hexString);
+
+    const middleLum = middle.luminance();
+    const lumHead = 1 - middleLum;
+
+    const magRange = magnitude / 1000;
+    const brightest = middle.luminance(middleLum + lumHead * magRange);
+    const darkest = middle.luminance(middleLum - middleLum * magRange);
+
+    const easeClamp = ease / 1000;
+    return scale([brightest, hexString, darkest])
+        .mode("hsv")
+        .domain([-1, -easeClamp, 0, easeClamp, 1]);
 }
 
 function spreadColor(
     colorString: string,
     domain: Domain,
     ease: number,
-    magnitude: number
+    mag: number
 ): Record<OutputColorKey, string> {
     const hexString = colorString.match(HEX_COLOR_PATTERN)
         ? (colorString as HexString)
         : ERROR_COLOR_HEX;
 
-    const middle = hex(hexString);
-    // const middleHue = middle.hsl()[0];
-    const middleSat = middle.hsl()[1];
-    const middleLum = middle.hsl()[2];
+    const cScale = colorScale(hexString, ease, mag);
 
     const spread: Partial<Record<OutputColorKey, string>> = {};
-
-    // start at 1 to make curving easier
-    for (let i = 1; i <= COLOR_SPREAD_CT; i++) {
-        const normalized =
-            2 * ((i - COLOR_SPREAD_CT) / (1 - COLOR_SPREAD_CT)) - 1;
-        const curveValue = ease * Math.pow(normalized * magnitude, 3);
-
-        const saturate = middleSat * curveValue;
-        const brighten = middleLum / curveValue;
+    for (let i = 1; i <= COLOR_CT; i++) {
+        // start at 1 to make curving easier
 
         const label: OutputColorKey = `color${domain}${i * 100}`;
-        spread[label] = translateColor(middle, saturate, brighten).hex();
+        const normalized = 2 * ((i - COLOR_CT) / (1 - COLOR_CT)) - 1;
+
+        spread[label] = cScale(normalized).hex();
     }
 
     return spread as Record<OutputColorKey, string>;

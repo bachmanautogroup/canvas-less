@@ -7,7 +7,7 @@ export interface Control {
     notifyOutputChanged: () => void;
 }
 
-export function styleBuilder(
+export function subscribeStyle(
     id: string,
     containerId: string,
     keep: Observable<boolean>,

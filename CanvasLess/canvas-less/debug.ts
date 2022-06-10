@@ -1,10 +1,21 @@
-import { combineLatest, Observable, scan, Subject, Subscription } from "rxjs";
+import {
+    combineLatest,
+    Observable,
+    ReplaySubject,
+    scan,
+    Subscription,
+} from "rxjs";
 import { ColorSpread } from "./color";
 import { SizeSpread } from "./size";
 import { OutputObservables } from "./params";
 import { ObservedObject } from "./util";
+import {
+    CANVAS_DATA_CONTAINER_NAME,
+    CANVAS_DATA_CONTROL_NAME,
+    CANVAS_DATA_CONTROL_PART,
+} from "./style";
 
-export type LogSubject = Subject<string>;
+export type LogSubject = ReplaySubject<string>;
 
 const API = `
 <code>
@@ -34,10 +45,22 @@ const DEPTH_INDENT = 2;
 
 function label(el: Element, depth: number): string {
     const indent = " ".repeat(DEPTH_INDENT).repeat(depth);
-    const id = el.id ? `#${el.id}` : "";
-    const classes = el.classList.length ? `.${el.classList.toString()}` : "";
+    const id = el.id ? `id: ${el.id}` : "";
+    const classes = el.classList.length
+        ? `classes: ${el.classList.toString()}`
+        : "";
+    const canvasData = [
+        CANVAS_DATA_CONTROL_NAME,
+        CANVAS_DATA_CONTAINER_NAME,
+        CANVAS_DATA_CONTROL_PART,
+    ]
+        .map((m) => el.getAttribute(m))
+        .filter((s) => s)
+        .join(",");
+    const data = canvasData.length ? `data: (${canvasData})` : "";
+    const label = [id, classes, data].filter((s) => s).join(" ; ");
 
-    return `${indent} &lt;${el.tagName}&gt; ${id} ${classes}\n`;
+    return `${indent} &lt;${el.tagName.toLowerCase()}&gt; ${label}\n`;
 }
 
 export function buildDomString(
@@ -102,17 +125,27 @@ function debugLessSection(less: string): HTMLElement {
 }
 
 function debugLogSection(output: string[]): HTMLElement {
-    const logs = output.map((l) => `<pre>${l}</pre>`);
+    const logs = output
+        .map(
+            (l) =>
+                `<pre class="${
+                    l.includes("::ERROR::") ? "error-log" : ""
+                }"><a data-logged="${l}">all</a>${logTrunc(
+                    l,
+                    LOG_MSG_LEN_MAX
+                )}</pre>`
+        )
+        .join("");
 
     const section = document.createElement("section");
-    section.classList.add("debug-less-section");
+    section.classList.add("debug-log-section");
     section.innerHTML = `<h2>Output Log</h2>${logs}`;
     return section;
 }
 
 function debugAPISection(): HTMLElement {
     const section = document.createElement("section");
-    section.classList.add("debug-less-section");
+    section.classList.add("debug-api-section");
     section.innerHTML = `<h2>API</h2><pre>${API}</pre>`;
     return section;
 }
@@ -129,22 +162,111 @@ function debugHTML(
     sizeSpread: SizeSpread,
     css: string,
     less: string,
-    logOutput: string[]
-    // domString: string
+    logOutput: string[],
+    domString: string
 ): string {
     return `
-        ${debugSizeSection(sizeSpread).outerHTML}
-        ${debugColorsSection(colorSpread).outerHTML}
+        <p>CanvasLess debug window. Toggle <code>Show Debug</code> to <code>False</code> to hide.</p>
         ${debugCssSection(css).outerHTML}
-        ${debugLessSection(less).outerHTML}
+        ${debugColorsSection(colorSpread).outerHTML}
+        ${debugSizeSection(sizeSpread).outerHTML}
         ${debugAPISection().outerHTML}
-        ${debugLogSection(logOutput).outerHTML}
+        ${debugLessSection(less).outerHTML}
+        ${debugLogSection(logOutput).outerHTML},
+        ${debugDOMStringSection(domString).outerHTML}
         `;
 }
 
-export function logSubject(): LogSubject {
-    return new Subject<string>();
+type ObservedOutput = ObservedObject<OutputObservables>;
+
+export function subscribeDebug(
+    containerId: string,
+    container: HTMLDivElement,
+    outputs: OutputObservables,
+    size: ContainerSizeSubject,
+    showDebug: Observable<boolean>,
+    log: LogSubject
+): Subscription {
+    container.id = containerId;
+    const domString = buildDomString();
+
+    const scannedLog = log.pipe(
+        scan((acc, val) => {
+            return [...acc, val];
+        }, [] as string[])
+    );
+
+    // not deprecated - using object implementation
+    // noinspection JSDeprecatedSymbols
+    const observedOutputs: Observable<ObservedOutput> = combineLatest(outputs);
+    const observed = combineLatest([
+        showDebug,
+        size,
+        observedOutputs,
+        scannedLog,
+    ]);
+
+    return observed.subscribe({
+        next: ([show, size, outputs, logged]) => {
+            if (!show) {
+                container.innerHTML = "";
+                return;
+            }
+            setContainerSize(container, size);
+            container.innerHTML = debugHTML(
+                outputs.colors,
+                outputs.sizes,
+                outputs.css,
+                outputs.less,
+                logged,
+                domString
+            );
+        },
+    });
 }
+
+function setContainerSize(
+    container: HTMLDivElement,
+    [width, height]: [number, number]
+): void {
+    container.style.maxWidth = `${width}px`;
+    container.style.maxHeight = `${height}px`;
+}
+
+export type ContainerSizeSubject = ReplaySubject<[number, number]>;
+
+export function sizeSubject(): ContainerSizeSubject {
+    return new ReplaySubject<[number, number]>(1);
+}
+
+export function sizeUpdate(
+    width: number,
+    height: number,
+    sizeSubject: ContainerSizeSubject
+): void {
+    return sizeSubject.next([width, height]);
+}
+
+export function logSubject(logToConsole: boolean): LogSubject {
+    const subject = new ReplaySubject<string>(1);
+
+    if (logToConsole) {
+        subject.subscribe((l) => console.log(l));
+    }
+
+    return subject;
+}
+
+function logTrunc(value: any, len: number): string {
+    let str = String(value);
+    if (str.length > len) {
+        str = str.slice(0, len) + "...";
+    }
+
+    return str.replace(/[^\S ]/g, "");
+}
+
+const LOG_MSG_LEN_MAX = 96;
 
 function log(subject: LogSubject, type: string, msg: string): void {
     const str = `${new Date().toISOString()} :: ${type} :: ${msg}`;
@@ -152,49 +274,9 @@ function log(subject: LogSubject, type: string, msg: string): void {
 }
 
 export function error(subject: LogSubject, e: Error): void {
-    return log(subject, `${e.message} \n ${e}`, "ERROR");
+    return log(subject, "ERROR", `${e.message} \n ${e}`);
 }
 
 export function debug(subject: LogSubject, msg: string): void {
-    return log(subject, "debug", msg);
-}
-
-type ObservedOutput = ObservedObject<OutputObservables>;
-
-export function debugBuilder(
-    containerId: string,
-    container: HTMLDivElement,
-    outputs: OutputObservables,
-    showDebug: Observable<boolean>,
-    log: LogSubject
-): Subscription {
-    container.id = containerId;
-
-    const scannedLog = log.pipe(
-        scan((acc, val) => {
-            return [val, ...acc];
-        }, [] as string[])
-    );
-
-    // not deprecated - using object implementation
-    // noinspection JSDeprecatedSymbols
-    const observedOutputs: Observable<ObservedOutput> = combineLatest(outputs);
-    const observed = combineLatest([showDebug, scannedLog, observedOutputs]);
-
-    return observed.subscribe({
-        next: ([show, logged, outputs]) => {
-            if (!show) {
-                container.innerHTML = "";
-                return;
-            }
-
-            container.innerHTML = debugHTML(
-                outputs.colors,
-                outputs.sizes,
-                outputs.css,
-                outputs.less,
-                logged
-            );
-        }
-    });
+    return log(subject, "DEBUG", msg);
 }

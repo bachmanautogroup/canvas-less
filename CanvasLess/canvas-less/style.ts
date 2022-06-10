@@ -1,21 +1,20 @@
-import { map, Observable, combineLatest, switchMap } from "rxjs";
-
-import { ControlInputObservables, OutputObservables } from "./params";
+import { map, Observable, combineLatest, switchMap, shareReplay } from "rxjs";
 import { render } from "less";
 
-const CANVAS_DATA_CONTROL_NAME = "data-control-name";
-const CANVAS_DATA_CONTAINER_NAME = "data-container-name";
-const CANVAS_DATA_CONTROL_PART = "data-control-part";
+import { ControlInputObservables, OutputObservables } from "./params";
+import { error, LogSubject } from "./debug";
+
+export const CANVAS_DATA_CONTROL_NAME = "data-control-name";
+export const CANVAS_DATA_CONTAINER_NAME = "data-container-name";
+export const CANVAS_DATA_CONTROL_PART = "data-control-part";
 const CANVAS_APP_SELECTOR = ".app-canvas";
 
 const FILL_SELECTOR = ".appmagic-borderfill-container";
 
 const INPUT_REPLACE_VAR = "%%input%%";
-const UPDATE_TIME_VAR = "%%updated%%";
 
 const CANVAS_LESS = `
 // LessCanvas styles
-// refreshed: ${UPDATE_TIME_VAR}
 
 ${CANVAS_APP_SELECTOR} {
 
@@ -66,10 +65,7 @@ ${CANVAS_APP_SELECTOR} {
 `;
 
 function placeInputLess(input: string): string {
-    return CANVAS_LESS.replace(INPUT_REPLACE_VAR, input).replace(
-        UPDATE_TIME_VAR,
-        new Date().toISOString()
-    );
+    return CANVAS_LESS.replace(INPUT_REPLACE_VAR, input);
 }
 
 export function buildLess(input: ControlInputObservables): Observable<string> {
@@ -77,16 +73,27 @@ export function buildLess(input: ControlInputObservables): Observable<string> {
 }
 
 export function buildCSS(
-    depends: Omit<OutputObservables, "css">
+    depends: Omit<OutputObservables, "css">,
+    log: LogSubject
 ): Observable<string> {
     // not deprecated - using object implementation
     // noinspection JSDeprecatedSymbols
     return combineLatest<Omit<OutputObservables, "css">>(depends).pipe(
-        switchMap((dep) => {
+        switchMap(async (dep) => {
             const { less, ...vars } = dep;
-            return render(less, {
-                globalVars: { ...vars.colors, ...vars.sizes },
-            }).then((out) => out.css);
-        })
+            const stringSizes: Record<string, string> = {};
+            for (const [k, v] of Object.entries(vars.sizes)) {
+                stringSizes[k] = `${v.toFixed(2)}em`;
+            }
+
+            const globalVars = { ...vars.colors, ...stringSizes };
+            try {
+                return (await render(less, { globalVars })).css;
+            } catch (e) {
+                error(log, e as Error);
+                return "";
+            }
+        }),
+        shareReplay(1)
     );
 }
