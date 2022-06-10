@@ -2,7 +2,7 @@
 <manifest>
     <control namespace="BachmanCanvas"
              constructor="CanvasLess"
-             version="1.0.1"
+             version="1.1.0"
              display-name-key="CanvasLess"
              description-key="Used to apply lesscss formatted stylesheets to Canvas controls. See https://lesscss.org for less documentation."
              control-type="standard">
