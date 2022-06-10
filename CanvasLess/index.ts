@@ -34,7 +34,7 @@ import {
 } from "./canvas-less/debug";
 import { subscribeStyle } from "./canvas-less/control";
 
-const DEVELOPMENT_MODE = true;
+const DEVELOPMENT_MODE = false;
 
 export class CanvasLess implements StandardControl<IInputs, IOutputs> {
     private log: LogSubject;
@@ -164,9 +164,9 @@ function control(
 }
 
 function controlId(label: string): string {
-    return `LessCanvas_${label}`;
+    return `CanvasLess_${label}`;
 }
 
 function controlContainerId(label: string): string {
-    return `LessCanvas_${label}-debugcontainer`;
+    return `CanvasLess_${label}-debugcontainer`;
 }
