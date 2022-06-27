@@ -18,6 +18,11 @@ import {
 export type LogSubject = ReplaySubject<string>;
 
 const API = `
+
+#control(name) {
+
+}
+
 <code>
 .control(@ControlName, @rule, @fillRule)
 </code>
@@ -57,10 +62,20 @@ ex:
 @rule: less ruleset to be applied within the scope of the control's container div.
 @fillRule: less ruleset to be applied to the fill container of the control's container (provided for convenience; optional)
 
+For easier design iteration, download overrides.less and use it customize and compile to CSS locally:
 
-For easier design iteration, download overrides.less and customize and compile to CSS locally. 
-Then, use Chrome DevTools local overrides to replace the overrides.css with the local output. 
-Chrome will watch this file and automatically reflect changes as they occur.
+0. First, ensure that Local Overrides have been enabled in the Chrome DevTools sources panel and a folder has been selected for Chrome to find overridden files.
+
+1. Using the DevTools Elements tab, find the inner body element within which the Canvas app is placed.  
+2. Find the style being applied by the PowerApps-aliased overrides.css file, and right click the filename and select 'Reveal in Sources panel'.
+3. Right-click the corresponding tab in the now-revealed Sources panel and select 'Save for Overrides'.
+4. Download the 'overrides.less' file using the link the Final Less section of the control debug readout.
+5. Navigate to the overrides folder and copy the overrides.less file into it, renaming it to match the name of file saved by Chrome in step 3 - keeping the .less file extension.
+6. (optional) Use a less file watcher to automatically compile your less to CSS as you make changes. 
+ 
+Then, while the DevTools are open, Chrome will watch this compiled CSS file and automatically reflect changes as they occur.
+
+To save your styles, simply place the less between <code>// user styles begin</code> and <code>// user styles end</code> of the overriding less file into the the CanvasLess control <code>styles</code> parameter within the Canvas editor.
 `;
 
 const DEPTH_INDENT = 2;
@@ -214,7 +229,6 @@ function debugHTML(
     domString: string
 ): string {
     return `
-        <link rel="stylesheet" type="text/less" src="./styles/overrides.less">
         <p>CanvasLess debug window. Toggle <code>Show Debug</code> to <code>False</code> to hide.</p>
         ${debugCssSection(css).outerHTML}
         ${debugColorsSection(colorSpread).outerHTML}

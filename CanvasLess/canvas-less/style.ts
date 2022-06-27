@@ -15,56 +15,95 @@ const FILL_SELECTOR = ".appmagic-borderfill-container";
 
 const INPUT_REPLACE_VAR = "%%input%%";
 
+// const CANVAS_LESS = `
+// // CanvasLess styles
+//
+// @app: ${CANVAS_APP_SELECTOR};
+// @flyout: ${CANVAS_FLYOUT_SELECTOR};
+//
+// .control(@name, @rule, @fillRule: {}) {
+//     @_controlDataAttribute: ${CANVAS_DATA_CONTROL_NAME};
+//     @controlSelector: %(~'[%s=%s]', @_controlDataAttribute, %('%s', @name));
+//
+//     & @{controlSelector} {
+//         @rule();
+//
+//         & > div > ${FILL_SELECTOR}, & > ${FILL_SELECTOR} {
+//             @fillRule()
+//         }
+//     }
+// }
+//
+// .container(@name, @rule, @fillRule: {}) {
+//     @_containerDataAttribute: ${CANVAS_DATA_CONTAINER_NAME};
+//     @containerSelector: %(~'[%s=%s]', @_containerDataAttribute, %('%s-container', @name));
+//
+//     & @{containerSelector} {
+//         @rule();
+//
+//         & > div > ${FILL_SELECTOR}, & > ${FILL_SELECTOR} {
+//             @fillRule()
+//         }
+//     }
+// }
+//
+// .part(@partName, @rule, @fillRule: {}) {
+//     @_partDataAttribute: ${CANVAS_DATA_CONTROL_PART};
+//     @partSelector: %(~'[%s=%s]', @_partDataAttribute, %('%s', @partName));
+//
+//     & @{partSelector} {
+//         @rule();
+//
+//         & > div > ${FILL_SELECTOR}, & > ${FILL_SELECTOR} {
+//             @fillRule()
+//         }
+//     }
+// }
+//
+// // user styles begin
+//
+// ${INPUT_REPLACE_VAR}
+//
+// // user styles end
+//
+// `;
+
 const CANVAS_LESS = `
-// CanvasLess styles
-    
-@app: ${CANVAS_APP_SELECTOR};
+
+@canvas: ${CANVAS_APP_SELECTOR};
 @flyout: ${CANVAS_FLYOUT_SELECTOR};
-
-.control(@name, @rule, @fillRule: {}) {
-    @_controlDataAttribute: ${CANVAS_DATA_CONTROL_NAME};
-    @controlSelector: %(~'[%s=%s]', @_controlDataAttribute, %('%s', @name));
-
-    & @{controlSelector} {
-        @rule();
-        
-        & > div > ${FILL_SELECTOR}, & > ${FILL_SELECTOR} {
-            @fillRule()
-        }
-    }
+ 
+#control(@name) {
+  @_containerDataAttribute: ${CANVAS_DATA_CONTAINER_NAME};
+  @_controlDataAttribute: ${CANVAS_DATA_CONTROL_NAME};
+  @_fillClass: ${FILL_SELECTOR};
+  
+  @_fillSelector: ~'%s > div > %s, %s > %s';
+  
+  @containerFill: %(@_fillSelector, @containerSelector, @_fillClass, @containerSelector, @_fillClass);
+  @containerSelector: %(~'[%s=%s]', @_containerDataAttribute, %('%s-container', @name));
+ 
+  @fill: %(@_fillSelector, @control, @_fillClass, @control, @_fillClass);
+  @control: %(~'[%s=%s]', @_controlDataAttribute, %('%s', @name));
+  
+  @r: @control;
 }
 
-.container(@name, @rule, @fillRule: {}) {
-    @_containerDataAttribute: ${CANVAS_DATA_CONTAINER_NAME};
-    @containerSelector: %(~'[%s=%s]', @_containerDataAttribute, %('%s-container', @name));
-
-    & @{containerSelector} {
-        @rule();
-        
-        & > div > ${FILL_SELECTOR}, & > ${FILL_SELECTOR} {
-            @fillRule()
-        }
-    }
+#part(@name) {
+  @_partDataAttribute: ${CANVAS_DATA_CONTROL_PART};
+  
+  @r: %(~'[%s=%s]', @_partDataAttribute, %('%s', @name));
 }
 
-.part(@partName, @rule, @fillRule: {}) {
-    @_partDataAttribute: ${CANVAS_DATA_CONTROL_PART};
-    @partSelector: %(~'[%s=%s]', @_partDataAttribute, %('%s', @partName));
+// user styles ++
 
-    & @{partSelector} {
-        @rule()
-        
-        & > div > ${FILL_SELECTOR}, & > ${FILL_SELECTOR} {
-            @fillRule()
-        }
-    }
+@user: { ${INPUT_REPLACE_VAR} };
+
+& {
+  @user();
 }
 
-// user styles begin
-
-${INPUT_REPLACE_VAR}
-
-// user styles end
+// user styles --
 
 `;
 
